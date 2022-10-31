@@ -1,11 +1,14 @@
 {
   "files": {
     "main.css": "/TWTravel/static/css/main.97366092.css",
-    "main.js": "/TWTravel/static/js/main.32249812.js",
+    "main.js": "/TWTravel/static/js/main.be795c5f.js",
     "static/js/787.8e636c00.chunk.js": "/TWTravel/static/js/787.8e636c00.chunk.js",
     "static/media/login.png": "/TWTravel/static/media/login.96fd7273edf0b8555013.png",
+    "static/media/2.restaurant.jpg": "/TWTravel/static/media/2.restaurant.6852f72aaaf5baa8df13.jpg",
     "static/media/1.view.jpg": "/TWTravel/static/media/1.view.00a5d7e668ea045f5ade.jpg",
+    "static/media/4.activity.jpg": "/TWTravel/static/media/4.activity.81de855ff6cd1ede824c.jpg",
     "static/media/home-signUp.jpg": "/TWTravel/static/media/home-signUp.5ad6a1c6f8be457030ba.jpg",
+    "static/media/3.guesthouse.jpg": "/TWTravel/static/media/3.guesthouse.cbc5c2f3a36b391e0ec6.jpg",
     "static/media/map-location.png": "/TWTravel/static/media/map-location.9f275bffabb51f37aed0.png",
     "static/media/traveler.png": "/TWTravel/static/media/traveler.689573f24a6861361578.png",
     "static/media/tour-list.png": "/TWTravel/static/media/tour-list.68d07016f1d3814bdcf8.png",
@@ -15,11 +18,11 @@
     "static/media/box.png": "/TWTravel/static/media/box.52c780aefcc107641cde.png",
     "index.html": "/TWTravel/index.html",
     "main.97366092.css.map": "/TWTravel/static/css/main.97366092.css.map",
-    "main.32249812.js.map": "/TWTravel/static/js/main.32249812.js.map",
+    "main.be795c5f.js.map": "/TWTravel/static/js/main.be795c5f.js.map",
     "787.8e636c00.chunk.js.map": "/TWTravel/static/js/787.8e636c00.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.97366092.css",
-    "static/js/main.32249812.js"
+    "static/js/main.be795c5f.js"
   ]
 }
