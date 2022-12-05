@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/TWTravel/static/css/main.8a9b9b2c.css",
-    "main.js": "/TWTravel/static/js/main.68c78021.js",
+    "main.css": "/TWTravel/static/css/main.03596a82.css",
+    "main.js": "/TWTravel/static/js/main.2055ebee.js",
     "static/js/787.8e636c00.chunk.js": "/TWTravel/static/js/787.8e636c00.chunk.js",
     "static/media/login.png": "/TWTravel/static/media/login.96fd7273edf0b8555013.png",
     "static/media/2.restaurant.jpg": "/TWTravel/static/media/2.restaurant.6852f72aaaf5baa8df13.jpg",
@@ -17,12 +17,12 @@
     "static/media/wishlist.png": "/TWTravel/static/media/wishlist.a73754f72ba07f29f23e.png",
     "static/media/box.png": "/TWTravel/static/media/box.52c780aefcc107641cde.png",
     "index.html": "/TWTravel/index.html",
-    "main.8a9b9b2c.css.map": "/TWTravel/static/css/main.8a9b9b2c.css.map",
-    "main.68c78021.js.map": "/TWTravel/static/js/main.68c78021.js.map",
+    "main.03596a82.css.map": "/TWTravel/static/css/main.03596a82.css.map",
+    "main.2055ebee.js.map": "/TWTravel/static/js/main.2055ebee.js.map",
     "787.8e636c00.chunk.js.map": "/TWTravel/static/js/787.8e636c00.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8a9b9b2c.css",
-    "static/js/main.68c78021.js"
+    "static/css/main.03596a82.css",
+    "static/js/main.2055ebee.js"
   ]
 }
