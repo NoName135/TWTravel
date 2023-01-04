@@ -1,0 +1,47 @@
+@mixin Desktop {
+  @media(min-width: 990px) {
+    @content
+  }
+}
+
+.nav-fix {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+}
+
+.member-btn {
+  @include Desktop() {
+    width: 150px;
+    position: absolute;
+    top: 57px;
+    right: -45px;
+  }
+}
+
+.nav-btn {
+  color: black;
+
+  &:hover {
+    color: #5C9500;
+  }
+}
+
+.chevron {
+  transition: all .3s ease;
+}
+
+.chevron-up {
+  transform: rotate(-180deg);
+}
+
+.chevron-down {
+  transform: rotate(0deg);
+}
+
+.nav-user {
+  &:hover{
+    background-color: rgba(0, 0, 0, .3);
+  }
+}

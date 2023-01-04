@@ -1,0 +1,12 @@
+/* Footer height 100% */
+.main-height {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainArea {
+  flex: 1;
+}
+
+/* Footer height 100% *//*# sourceMappingURL=footer.css.map */

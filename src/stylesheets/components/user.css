@@ -1,0 +1,37 @@
+.fixed-position {
+  width: 90%;
+  left: 5%;
+}
+@media (min-width: 990px) {
+  .fixed-position {
+    left: auto;
+  }
+}
+
+.user-main {
+  margin-top: 250px;
+}
+@media (min-width: 990px) {
+  .user-main {
+    margin-top: 120px;
+  }
+}
+
+.my-itinerary-mask {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+.my-itinerary-mask:hover .my-itinerary-text {
+  display: none;
+}
+.my-itinerary-mask:hover .my-itinerary-btn {
+  display: flex;
+}
+
+.my-itinerary-text {
+  display: flex;
+}
+
+.my-itinerary-btn {
+  display: none;
+}/*# sourceMappingURL=user.css.map */

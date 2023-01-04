@@ -1,0 +1,23 @@
+.page-link {
+  color: $dark;
+  border: 0;
+  background: transparent;
+
+  &:hover {
+    color: $primary;
+    background: transparent;
+  }
+
+  &:focus {
+    --bs-pagination-focus-box-shadow: 0;
+    --bs-pagination-focus-bg: transparent;
+    --bs-pagination-focus-color: $dark;
+  }
+}
+
+.page-link.active {
+  &:hover{
+    color: $white;
+    background: $primary;
+  }
+}

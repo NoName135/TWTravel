@@ -1,0 +1,94 @@
+@mixin Desktop {
+  @media(min-width: 990px) {
+    @content
+  }
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+.weather-swiper {
+  position: static;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+.home-guesthouse-swiper img {
+  height: 200px;
+}
+
+.details-swiper img {
+  height: 260px;
+  @include Desktop() {
+    height: 480px;
+  }
+}
+
+.home-guesthouse-swiper>.swiper-button-next,
+.details-swiper>.swiper-button-next,
+.home-guesthouse-swiper>.swiper-button-prev,
+.details-swiper>.swiper-button-prev {
+  color: white;
+  z-index: 10;
+  top: 22px;
+  width: calc(var(--swiper-navigation-size)/ 35 * 27);
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.weather-swiper>.swiper-button-next,
+.weather-swiper>.swiper-button-prev {
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-position: center center;
+  border-radius: 50%;
+  background-color: #5C9500;
+  width: 22px;
+  height: 22px;
+  top: 40px;
+}
+.weather-swiper>.swiper-button-prev {
+  background-image: url(https://icons.veryicon.com/png/o/miscellaneous/8atour/arrow-left-46.png);
+}
+.weather-swiper>.swiper-button-next {
+  background-image: url(https://icons.veryicon.com/png/o/miscellaneous/8atour/arrow-right-50.png);
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  color: #5C9500;
+}
+
+.home-guesthouse-swiper>.swiper-button-next,
+.details-swiper>.swiper-button-next{
+  right: 0;
+}
+.home-guesthouse-swiper>.swiper-button-prev,
+.details-swiper>.swiper-button-prev{
+  left: 0;
+}
+
+.weather-swiper>.swiper-button-next {
+  right: 14px;
+}
+.weather-swiper>.swiper-button-prev {
+  left: auto;
+  right: 107.5px;
+  @include Desktop() {
+    right: 109px;
+  }
+}
+
+.swiper-pagination-bullet-active {
+  background: #5C9500;
+}
+
+.weather-swiper>.swiper-button-next::after,
+.weather-swiper>.swiper-button-prev::after {
+  display: none;
+}
+

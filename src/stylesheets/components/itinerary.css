@@ -1,0 +1,87 @@
+.leaflet-tooltip.position-labels {
+  color: white;
+  background: transparent;
+  border: transparent;
+  box-shadow: none;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.add-position {
+  z-index: 1000;
+}
+
+.add-position::after {
+  content: "";
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.search-column {
+  width: 100%;
+}
+@media (min-width: 990px) {
+  .search-column {
+    width: 85%;
+  }
+}
+
+.search-card {
+  height: 50%;
+}
+@media (min-width: 990px) {
+  .search-card {
+    height: 75%;
+  }
+}
+
+.select-width {
+  width: 100%;
+}
+@media (min-width: 990px) {
+  .select-width {
+    width: 250px;
+  }
+}
+
+.custom-column {
+  width: 100%;
+}
+@media (min-width: 990px) {
+  .custom-column {
+    width: 50%;
+  }
+}
+
+.custom-position {
+  width: 100%;
+}
+@media (min-width: 990px) {
+  .custom-position {
+    width: 80%;
+  }
+}
+
+.edit-area {
+  color: #000;
+  transform: translateX(0);
+  transition: all 0.3s;
+}
+.edit-area.active {
+  transform: translateX(150px);
+}
+
+.edit-btn {
+  color: #5C9500;
+  background: #EFF4E5;
+  transition: all 0.3s;
+}
+.edit-btn:hover {
+  color: #EFF4E5;
+  background: gray;
+}/*# sourceMappingURL=itinerary.css.map */

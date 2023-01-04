@@ -1,0 +1,27 @@
+.fa-arrow-up-right-from-square {
+  color: #5C9500;
+}
+
+.website-link:active .fa-arrow-up-right-from-square {
+  color: white;
+}
+
+.sticky-top-95 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 95px;
+}
+
+@media (min-width: 990px) {
+  .sticky-top-160 {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 160px;
+  }
+}
+
+@media (min-width: 990px) {
+  .tag-border {
+    border-right: 2px solid #5C9500;
+  }
+}/*# sourceMappingURL=details.css.map */

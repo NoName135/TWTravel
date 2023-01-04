@@ -1,0 +1,35 @@
+@mixin Desktop {
+  @media(min-width: 990px) {
+    @content
+  }
+}
+
+.fa-arrow-up-right-from-square {
+  color: #5C9500;
+}
+
+.website-link {
+  &:active {
+    .fa-arrow-up-right-from-square {
+      color: white;
+    }
+  }
+}
+
+.sticky-top-95 {
+  position: sticky;
+  top: 95px;
+}
+
+.sticky-top-160 {
+  @include Desktop() {
+    position: sticky;
+    top: 160px;
+  }
+}
+
+.tag-border {
+  @include Desktop() {
+    border-right: 2px solid #5C9500
+  }
+}

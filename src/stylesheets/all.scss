@@ -1,0 +1,138 @@
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../../node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+
+// 3. Include remainder of required Bootstrap stylesheets
+// @import "../node_modules/bootstrap/scss/variables";
+@import "helpers/variables";
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import "../../node_modules/bootstrap/scss/maps";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/root";
+
+// 6. Optionally include any other parts as needed
+// @import "../../node_modules/bootstrap/scss/utilities";
+@import "helpers/utilities";
+@import "../../node_modules/bootstrap/scss/reboot";
+@import "../../node_modules/bootstrap/scss/type";
+@import "../../node_modules/bootstrap/scss/images";
+@import "../../node_modules/bootstrap/scss/containers";
+@import "../../node_modules/bootstrap/scss/grid";
+@import "../../node_modules/bootstrap/scss/helpers";
+@import "../../node_modules/bootstrap/scss/tables";
+@import "../../node_modules/bootstrap/scss/forms";
+@import "../../node_modules/bootstrap/scss/buttons";
+@import "../../node_modules/bootstrap/scss/transitions";
+@import "../../node_modules/bootstrap/scss/dropdown";
+@import "../../node_modules/bootstrap/scss/button-group";
+@import "../../node_modules/bootstrap/scss/nav";
+@import "../../node_modules/bootstrap/scss/navbar";
+@import "../../node_modules/bootstrap/scss/card";
+@import "../../node_modules/bootstrap/scss/accordion";
+// @import "../../node_modules/bootstrap/scss/breadcrumb";
+@import "../../node_modules/bootstrap/scss/pagination";
+@import "../../node_modules/bootstrap/scss/badge";
+// @import "../../node_modules/bootstrap/scss/alert";
+// @import "../../node_modules/bootstrap/scss/progress";
+@import "../../node_modules/bootstrap/scss/list-group";
+@import "../../node_modules/bootstrap/scss/close";
+// @import "../../node_modules/bootstrap/scss/toasts";
+@import "../../node_modules/bootstrap/scss/modal";
+@import "../../node_modules/bootstrap/scss/tooltip";
+// @import "../../node_modules/bootstrap/scss/popover";
+// @import "../../node_modules/bootstrap/scss/carousel";
+// @import "../../node_modules/bootstrap/scss/spinners";
+// @import "../../node_modules/bootstrap/scss/offcanvas";
+// @import "../../node_modules/bootstrap/scss/placeholders";
+
+// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+@import "../../node_modules/bootstrap/scss/utilities/api";
+
+// 8. Add additional custom code here
+// @import "./components/custom-navbar";
+// @import "./components/header";
+// @import "./components/hover";
+// @import "./components/text-stroke";
+// @import "./components/fixed-button";
+// @import "./components/service-image";
+// @import "./components/design-list";
+// @import "./components/custom-pagination";
+
+// custom
+
+@import "./components/navbar";
+@import "./components/footer";
+@import "./components/home";
+@import "./components/swiper";
+@import "./components/user";
+@import "./components/pagination";
+@import "./components/details";
+@import "./components/itinerary.scss";
+
+.font-lilita {
+  font-family: 'Lilita One';
+}
+
+.text-gray-500 {
+  color: #adb5bd;
+}
+
+.img-mask {
+  transition: all .4s ease;
+  background-color: rgba(0, 0, 0, .6);
+  .star-color {
+    color: $warning;
+  }
+  color: white;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0);
+    .star-color {
+      color: rgba(0, 0, 0, 0);
+    }
+    color: rgba(0, 0, 0, 0);
+  }
+}
+
+.left-image-card:hover {
+  transition: all .4s ease;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important
+}
+
+.btn-primary {
+  --bs-btn-color: #fff;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+}
+
+.btn-outline-primary {
+  --bs-btn-hover-color: #5C9500;
+  --bs-btn-hover-bg: #fff;
+  --bs-btn-active-color: #fff;
+}
+
+.mt-80 {
+  margin-top: 80px;
+}
+
+// Mui date time picker
+.css-u9osun.Mui-focused {
+color: #5C9500 !important;
+}
+.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #5C9500 !important;
+}
+.css-118whkv, .css-2ujp1m {
+  border-color: #5C9500 !important;
+}
+.css-12ha4i7, .css-7lip4c, .css-a1rc6s {
+  background-color: #5C9500 !important;
+}
+.css-m1gykc.Mui-selected,.css-wed0tz.Mui-selected, .css-ub1r1.Mui-selected{
+  background-color: #5C9500 !important;
+
+}
