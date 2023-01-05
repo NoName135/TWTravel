@@ -57,7 +57,8 @@ const GuesthouseDetail = () => {
   const [renderWeather, setRenderWeather] = useState([{
     name: 'unknown',
     pop: [0,0,0],
-    wx: [0,0,0],
+    wx: ['','',''],
+    wxImg: ['sun.png','sun.png','sun.png'],
     minT: [0,0,0],
     maxT: [0,0,0]
   }]);
@@ -234,12 +235,13 @@ const GuesthouseDetail = () => {
           const weatherObj = {
             pop: [],
             wx: [],
+            wxImg: [],
             minT: [],
-            maxT: []
+            maxT: [],
           };
           weatherObj.name = item.locationName;
           item.weatherElement.forEach(data => {
-            for(let i=data.time.length-1; i>=0; i-=2){
+            for(let i=data.time.length-1; data.time.length>6 ? i>=1 : i>=0; i-=2){
               if(data.elementName === 'PoP12h'){
                 const firstData = parseInt(data.time[i].elementValue[0].value);
                 const secondData = parseInt(i > 0 ? data.time[i-1].elementValue[0].value : '');
@@ -247,14 +249,6 @@ const GuesthouseDetail = () => {
                   weatherObj.pop.unshift(firstData > secondData ? firstData : secondData);
                 }else{
                   weatherObj.pop.unshift(firstData);
-                }
-              }else if(data.elementName === 'Wx'){
-                const firstData = parseInt(data.time[i].elementValue[1].value);
-                const secondData = parseInt(i > 0 ? data.time[i-1].elementValue[1].value : '');
-                if(secondData){
-                  weatherObj.wx.unshift(firstData > secondData ? firstData : secondData);
-                }else{
-                  weatherObj.wx.unshift(firstData);
                 }
               }else if(data.elementName === 'MaxT'){
                 const firstData = parseInt(data.time[i].elementValue[0].value);
@@ -271,6 +265,48 @@ const GuesthouseDetail = () => {
                   weatherObj.minT.unshift(firstData > secondData ? secondData : firstData);
                 }else{
                   weatherObj.minT.unshift(firstData);
+                }
+              }else if(data.elementName === 'Wx'){
+                // https://www.iconfinder.com/iconsets/the-weather-is-nice-today
+                const firstValue = parseInt(data.time[i].elementValue[1].value);
+                const secondValue = parseInt(i > 0 ? data.time[i-1].elementValue[1].value : '');
+                const weatherImg = (wxValue) => {
+                  if(wxValue >= 2 && wxValue <= 3){
+                    weatherObj.wxImg.unshift('sun_cloud.png');
+                  }else if(wxValue >= 4 && wxValue <= 7){
+                    weatherObj.wxImg.unshift('cloud.png');
+                  }else if(wxValue == 8 || wxValue == 15 || wxValue == 16 || wxValue >= 20 && wxValue <= 22){
+                    weatherObj.wxImg.unshift('sun_thunderstorm.png');
+                  }else if(wxValue >= 9 && wxValue <= 12 || wxValue == 17 || wxValue == 18 || wxValue == 29 || wxValue == 30){
+                    weatherObj.wxImg.unshift('cloud_thunderstorm.png');
+                  }else if(wxValue == 13 || wxValue == 14 || wxValue == 39){
+                    weatherObj.wxImg.unshift('rain.png');
+                  }else if(wxValue == 19){
+                    weatherObj.wxImg.unshift('sun_rain.png');
+                  }else if(wxValue == 23 || wxValue == 37 || wxValue == 42){
+                    weatherObj.wxImg.unshift('cloud_snow.png');
+                  }else if(wxValue >= 24 && wxValue <= 26){
+                    weatherObj.wxImg.unshift('sun_fog.png');
+                  }else if(wxValue == 27 || wxValue == 28 || wxValue >= 31 && wxValue <= 36 || wxValue == 38 || wxValue == 41){
+                    weatherObj.wxImg.unshift('cloud_fog.png');
+                  }else{
+                    weatherObj.wxImg.unshift('sun.png');
+                  }
+                }
+                if(secondValue){
+                  if(firstValue > secondValue){
+                    const wxData = data.time[i].elementValue[0].value;
+                    weatherObj.wx.unshift(wxData);
+                    weatherImg(firstValue);
+                  }else{
+                    const wxData = data.time[i-1].elementValue[0].value;
+                    weatherObj.wx.unshift(wxData);
+                    weatherImg(secondValue);
+                  }
+                }else{
+                  const wxData = data.time[i].elementValue[0].value;
+                  weatherObj.wx.unshift(wxData);
+                  weatherImg(firstValue);
                 }
               }
             }
@@ -953,7 +989,8 @@ const GuesthouseDetail = () => {
                                   <div className="d-flex justify-content-between align-items-center" style={{width: '101.5px'}}>
                                     <img
                                       style={{ width: '30px', height: '30px' }}
-                                      src={require('../../img/weathers/sun.png')}
+                                      src={require(`../../img/weathers/${item.wxImg[0]}`)}
+                                      title={item.wx[0]}
                                     />
                                     <span className="ps-1">{item.minT[0]} - {item.maxT[0]}°C</span>
                                   </div>
@@ -980,7 +1017,8 @@ const GuesthouseDetail = () => {
                                   <div className="d-flex justify-content-between align-items-center" style={{width: '101.5px'}}>
                                     <img
                                       style={{ width: '30px', height: '30px' }}
-                                      src={require('../../img/weathers/sun.png')}
+                                      src={require(`../../img/weathers/${item.wxImg[1]}`)}
+                                      title={item.wx[1]}
                                     />
                                     <span className="ps-1">{item.minT[1]} - {item.maxT[1]}°C</span>
                                   </div>
@@ -1007,7 +1045,8 @@ const GuesthouseDetail = () => {
                                   <div className="d-flex justify-content-between align-items-center" style={{width: '101.5px'}}>
                                     <img
                                       style={{ width: '30px', height: '30px' }}
-                                      src={require('../../img/weathers/sun.png')}
+                                      src={require(`../../img/weathers/${item.wxImg[2]}`)}
+                                      title={item.wx[2]}
                                     />
                                     <span className="ps-1">{item.minT[2]} - {item.maxT[2]}°C</span>
                                   </div>
