@@ -410,7 +410,7 @@ const RestaurantList = () => {
 
       setListLoading(true);
       Promise.all([
-        axios.get(
+        await axios.get(
           `https://tdx.transportdata.tw/api/basic/v2/Tourism/Restaurant/${selectCity.value}?$format=JSON`,
           {
             headers: {

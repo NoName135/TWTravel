@@ -431,7 +431,7 @@ const ActivityList = () => {
 
       setListLoading(true);
       Promise.all([
-        axios.get(
+        await axios.get(
           `https://tdx.transportdata.tw/api/basic/v2/Tourism/Activity/${selectCity.value}?$format=JSON`,
           {
             headers: {
