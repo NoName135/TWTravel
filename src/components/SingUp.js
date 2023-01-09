@@ -27,7 +27,7 @@ const SignUp = () => {
     const userData = {...data, photo: ''};
 
     axios
-      .post('https://tw-travel-server.vercel.app/users', userData)
+      .post('https://twtravel-server.onrender.com/users', userData)
       .then((res) => {
         // console.log(res)
         setLoginLoading(false);

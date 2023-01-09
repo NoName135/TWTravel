@@ -40,7 +40,7 @@ const CreateItinerary = () => {
     setCreateLoading(true);
     try{
       await axios
-        .post(`https://tw-travel-server.vercel.app/600/itineraries`, {
+        .post(`https://twtravel-server.onrender.com/600/itineraries`, {
           "userId": userId,
           "name": data.itineraryName,
           "startDate": `${date.$y}-${(date.$M + 1).toString().padStart(2, '0')}-${(date.$D).toString().padStart(2, '0')}`,
@@ -57,7 +57,7 @@ const CreateItinerary = () => {
       for(let i=0; i<Number(data.itineraryDays); i++){
         await axios
           .post(
-            `https://tw-travel-server.vercel.app/600/itineraries/${newId}/days`,{
+            `https://twtravel-server.onrender.com/600/itineraries/${newId}/days`,{
               "userId": userId,
               "sort": i+1,
               "startTime": "08:00",
@@ -132,7 +132,7 @@ const CreateItinerary = () => {
         setUserLoading(true);
         try{
           await axios
-            .post(`https://tw-travel-server.vercel.app/600/itineraries`, {
+            .post(`https://twtravel-server.onrender.com/600/itineraries`, {
               "userId": userId,
               "name": name + '-複製',
               "startDate": duplicateDate,
@@ -147,7 +147,7 @@ const CreateItinerary = () => {
               })
 
           await axios
-            .get(`https://tw-travel-server.vercel.app/600/users/${userId}/days?itineraryId=${id}`,{
+            .get(`https://twtravel-server.onrender.com/600/users/${userId}/days?itineraryId=${id}`,{
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -160,7 +160,7 @@ const CreateItinerary = () => {
           for(let i=0; i<duplicateData.length; i++){
             await axios
               .post(
-                `https://tw-travel-server.vercel.app/600/itineraries/${newId}/days`,{
+                `https://twtravel-server.onrender.com/600/itineraries/${newId}/days`,{
                   "userId": duplicateData[i]?.userId,
                   "sort": duplicateData[i]?.sort,
                   "startTime": "08:00",
@@ -233,7 +233,7 @@ const CreateItinerary = () => {
     setUserLoading(true);
     axios
       .get(
-        `https://tw-travel-server.vercel.app/600/users/${userId}/itineraries`,
+        `https://twtravel-server.onrender.com/600/users/${userId}/itineraries`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

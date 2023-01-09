@@ -31,7 +31,7 @@ const MyItinerary = () => {
       showLoaderOnConfirm: true,
       preConfirm: () => {
         return axios
-          .delete(`https://tw-travel-server.vercel.app/600/itineraries/${id}`, {
+          .delete(`https://twtravel-server.onrender.com/600/itineraries/${id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -88,7 +88,7 @@ const MyItinerary = () => {
     setUserLoading(true);
     axios
       .get(
-        `https://tw-travel-server.vercel.app/600/users/${userId}/itineraries`,
+        `https://twtravel-server.onrender.com/600/users/${userId}/itineraries`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

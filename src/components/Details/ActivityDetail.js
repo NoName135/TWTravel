@@ -95,7 +95,7 @@ const ActivityDetail = () => {
       //判斷是否已加入收藏
       if (favoriteId) {
         axios
-          .delete(`https://tw-travel-server.vercel.app/600/favorites/${favoriteId}`, {
+          .delete(`https://twtravel-server.onrender.com/600/favorites/${favoriteId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -143,7 +143,7 @@ const ActivityDetail = () => {
       } else {
         axios
           .post(
-            `https://tw-travel-server.vercel.app/600/users/${userId}/favorites`,
+            `https://twtravel-server.onrender.com/600/users/${userId}/favorites`,
             {
               userId: userId,
               positionId: activityId,
@@ -486,7 +486,7 @@ const ActivityDetail = () => {
           );
           const id = localStorageData.user.id;
           const token = localStorageData.accessToken;
-          return axios.get(`https://tw-travel-server.vercel.app/600/users/${id}/favorites`, {
+          return axios.get(`https://twtravel-server.onrender.com/600/users/${id}/favorites`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

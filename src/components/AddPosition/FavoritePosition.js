@@ -41,7 +41,7 @@ function FavoritePosition(props) {
     // setUserLoading(true);
     axios
       .get(
-        `https://tw-travel-server.vercel.app/600/users/${userId}/favorites`,
+        `https://twtravel-server.onrender.com/600/users/${userId}/favorites`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

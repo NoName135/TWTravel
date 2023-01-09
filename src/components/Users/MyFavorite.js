@@ -54,7 +54,7 @@ const MyFavorite = () => {
       showLoaderOnConfirm: true,
       preConfirm: () => {
         return axios
-          .delete(`https://tw-travel-server.vercel.app/600/favorites/${id}`, {
+          .delete(`https://twtravel-server.onrender.com/600/favorites/${id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -110,7 +110,7 @@ const MyFavorite = () => {
 
     setUserLoading(true);
     axios
-      .get(`https://tw-travel-server.vercel.app/600/users/${userId}/favorites`, {
+      .get(`https://twtravel-server.onrender.com/600/users/${userId}/favorites`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

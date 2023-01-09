@@ -51,7 +51,7 @@ const Itinerary = () => {
 
     const updatePosition = async() => {
       await axios.patch(
-        `https://tw-travel-server.vercel.app/600/days/${renderDay[targetDay - 1].id}`,
+        `https://twtravel-server.onrender.com/600/days/${renderDay[targetDay - 1].id}`,
         { position: positions },
         {
           headers: {
@@ -141,7 +141,7 @@ const Itinerary = () => {
     setDate(newDate);
 
     axios.patch(
-        `https://tw-travel-server.vercel.app/600/itineraries/${editId}`,
+        `https://twtravel-server.onrender.com/600/itineraries/${editId}`,
         { startDate: changeDate },
         {
           headers: {
@@ -181,7 +181,7 @@ const Itinerary = () => {
       setTime(newTime);
 
       axios.patch(
-          `https://tw-travel-server.vercel.app/600/days/${todayId}`,
+          `https://twtravel-server.onrender.com/600/days/${todayId}`,
           { startTime: changeTime },
           {
             headers: {
@@ -264,7 +264,7 @@ const Itinerary = () => {
 
           return await axios
             .patch(
-              `https://tw-travel-server.vercel.app/600/days/${today.id}`,
+              `https://twtravel-server.onrender.com/600/days/${today.id}`,
               {
                 position: today.position,
               },
@@ -604,7 +604,7 @@ const Itinerary = () => {
               newPositions[prevPositionIndex].avoidHighway = false;
             }
             return await axios
-              .patch(`https://tw-travel-server.vercel.app/600/days/${dayId}`, {
+              .patch(`https://twtravel-server.onrender.com/600/days/${dayId}`, {
                 "position": newPositions
               },{
                 headers: {
@@ -724,7 +724,7 @@ const Itinerary = () => {
         }
 
         return await axios
-          .patch(`https://tw-travel-server.vercel.app/600/days/${dayId}`, {
+          .patch(`https://twtravel-server.onrender.com/600/days/${dayId}`, {
             "position": newPositions
           },{
             headers: {
@@ -869,7 +869,7 @@ const Itinerary = () => {
         const newPositions = [...today.position]
         newPositions.push(newData)
         return await axios
-          .patch(`https://tw-travel-server.vercel.app/600/days/${today.id}`, {
+          .patch(`https://twtravel-server.onrender.com/600/days/${today.id}`, {
             position: newPositions
           },{
             headers: {
@@ -997,7 +997,7 @@ const Itinerary = () => {
 
     setItineraryLoading(true);
     await axios
-      .patch(`https://tw-travel-server.vercel.app/600/days/${renderDay[targetDay-1].id}`, {
+      .patch(`https://twtravel-server.onrender.com/600/days/${renderDay[targetDay-1].id}`, {
         "position": newPositions
       },{
         headers: {
@@ -1164,7 +1164,7 @@ const Itinerary = () => {
 
     setVehicleLoading(true);
     axios.patch(
-      `https://tw-travel-server.vercel.app/600/days/${renderDay[targetDay - 1].id}`,
+      `https://twtravel-server.onrender.com/600/days/${renderDay[targetDay - 1].id}`,
       { position: positions },
       {
         headers: {
@@ -1245,7 +1245,7 @@ const Itinerary = () => {
     setHighwayLoader(true);
     const changeRadio = async() => {
       await axios.patch(
-        `https://tw-travel-server.vercel.app/600/days/${renderDay[targetDay - 1].id}`,
+        `https://twtravel-server.onrender.com/600/days/${renderDay[targetDay - 1].id}`,
         { position: positions },
         {
           headers: {
@@ -1518,7 +1518,7 @@ const Itinerary = () => {
         } else {
           return await axios
             .patch(
-              `https://tw-travel-server.vercel.app/600/itineraries/${editId}`,
+              `https://twtravel-server.onrender.com/600/itineraries/${editId}`,
               {
                 name: name,
               },
@@ -1581,7 +1581,7 @@ const Itinerary = () => {
 
     setDayLoading(true);
     axios.post(
-      `https://tw-travel-server.vercel.app/600/days`,{
+      `https://twtravel-server.onrender.com/600/days`,{
         "userId": userId,
         "sort": renderDay[renderDay.length-1].sort+1,
         "startTime": "08:00",
@@ -1644,7 +1644,7 @@ const Itinerary = () => {
         // 判斷總天數是否只有 1 天
         if(renderDay.length == 1){
           return await axios
-            .patch(`https://tw-travel-server.vercel.app/600/days/${id}`, {
+            .patch(`https://twtravel-server.onrender.com/600/days/${id}`, {
               "startTime": "08:00",
               "position": [],
             },{
@@ -1673,7 +1673,7 @@ const Itinerary = () => {
               })
         }else{
           return await axios
-            .delete(`https://tw-travel-server.vercel.app/600/days/${id}`, {
+            .delete(`https://twtravel-server.onrender.com/600/days/${id}`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -1840,7 +1840,7 @@ const Itinerary = () => {
       newRenderDay[i].sort = sortNum;
       await axios
         .patch(
-          `https://tw-travel-server.vercel.app/600/days/${newRenderDay[i].id}`,
+          `https://twtravel-server.onrender.com/600/days/${newRenderDay[i].id}`,
           { sort: sortNum },
           {
             headers: {
@@ -1974,7 +1974,7 @@ const Itinerary = () => {
     // setUserLoading(true);
     axios
       .get(
-        `https://tw-travel-server.vercel.app/600/days?itineraryId=${editId}&_expand=itinerary`,
+        `https://twtravel-server.onrender.com/600/days?itineraryId=${editId}&_expand=itinerary`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

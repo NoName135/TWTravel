@@ -86,7 +86,7 @@ const ViewDetail = () => {
       if (favoriteId) {
         axios
           .delete(
-            `https://tw-travel-server.vercel.app/600/favorites/${favoriteId}`,
+            `https://twtravel-server.onrender.com/600/favorites/${favoriteId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -136,7 +136,7 @@ const ViewDetail = () => {
       } else {
         axios
           .post(
-            `https://tw-travel-server.vercel.app/600/users/${userId}/favorites`,
+            `https://twtravel-server.onrender.com/600/users/${userId}/favorites`,
             {
               userId: userId,
               positionId: viewId,
@@ -467,7 +467,7 @@ const ViewDetail = () => {
           const id = localStorageData.user.id;
           const token = localStorageData.accessToken;
           return axios.get(
-            `https://tw-travel-server.vercel.app/600/users/${id}/favorites`,
+            `https://twtravel-server.onrender.com/600/users/${id}/favorites`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,

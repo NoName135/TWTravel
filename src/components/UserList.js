@@ -29,7 +29,7 @@ const UserList = () => {
 
     axios
       .patch(
-        `https://tw-travel-server.vercel.app/600/users/${userId}`,
+        `https://twtravel-server.onrender.com/600/users/${userId}`,
         { photo: imageLink },
         {
           headers: {
@@ -119,7 +119,7 @@ const UserList = () => {
         } else {
           return axios
             .patch(
-              `https://tw-travel-server.vercel.app/600/users/${userId}`,
+              `https://twtravel-server.onrender.com/600/users/${userId}`,
               { nickname: newNickname },
               {
                 headers: {
