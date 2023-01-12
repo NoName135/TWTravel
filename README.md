@@ -17,8 +17,9 @@
 - [x] 收藏景點
 - [x] 建立行程
 - [x] 編輯行程
-- [x] 拖曳變更行程
-...
+- [x] 拖曳變更行程 Day
+- [x] 拖曳變更行程地點
+
 
 ## 畫面
 
@@ -32,7 +33,7 @@
 - components - JS檔案
 - stylesheets - SCSS 檔案
 - img - 圖片
-...
+
 
 ## 專案技術
 
@@ -42,7 +43,7 @@
 - NPM v6.14.15
 - Bootstrap v5.2.2
 - Axios v1.1.3
-...
+
 
 ## 第三方服務
 
@@ -56,7 +57,6 @@
 - react-spinners
 - sweetalert2
 - swiper
-...
 
 
 ## 聯絡作者
@@ -65,4 +65,3 @@
 
 - [Facebook](https://www.facebook.com/YeJyun.Lin27/)
 - [Instagram](https://www.instagram.com/justin14135/)
-...
