@@ -1,70 +1,133 @@
-# Getting Started with Create React App
+![專案封面圖](https://github.com/NoName135/TWTravel/blob/main/src/img/readmeImages/homepage.jpg){:width="500px"}
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 功能
 
-## Available Scripts
+測試帳號密碼 **（請斟酌提供，建議只提供僅能觀看不能操作的帳號密碼）**
 
-In the project directory, you can run:
+```bash
+帳號： example@example.com
+密碼： example
+```
 
-### `npm start`
+- [x] 登入
+- [x] 登出
+- [x] 產品列表
+...
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 畫面
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> 可提供 1~3 張圖片，讓觀看者透過 README 了解整體畫面
 
-### `npm test`
+![範例圖片 1](https://github.com/NoName135/TWTravel/blob/main/src/img/readmeImages/homepage.jpg?raw=true)
+![範例圖片 2](https://fakeimg.pl/500/)
+![範例圖片 3](https://fakeimg.pl/500/)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 安裝
 
-### `npm run build`
+> 請務必依據你的專案來調整內容。
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+以下將會引導你如何安裝此專案到你的電腦上。
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Node.js 版本建議為：`16.15.0` 以上...
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 取得專案
 
-### `npm run eject`
+```bash
+git clone git@github.com:hsiangfeng/README-Example-Template.git
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 移動到專案內
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+cd README-Example-Template
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 安裝套件
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm install
+```
 
-## Learn More
+### 環境變數設定
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+請在終端機輸入 `cp .env.example .env` 來複製 .env.example 檔案，並依據 `.env` 內容調整相關欄位。
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 運行專案
 
-### Code Splitting
+```bash
+npm run serve
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 開啟專案
 
-### Analyzing the Bundle Size
+在瀏覽器網址列輸入以下即可看到畫面
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+http://localhost:8080/
+```
 
-### Making a Progressive Web App
+## 環境變數說明
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```env
+APIPATH= # API 位置
+COUSTOMPATH= # 自訂變數
+...
+```
 
-### Advanced Configuration
+## 資料夾說明
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- views - 畫面放置處
+- controllers - 控制器放置處
+- modules - 模組放置處
+- assets - 靜態資源放置處
+  - scss - scss 檔案放置處
+  - images - 圖片放置處
+...
 
-### Deployment
+## 專案技術
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Node.js v16.15.0
+- Vue v3.2.20
+- Vite v4.0.4
+- Vue Router v4.0.11
+- Axios v0.24.0
+- Bootstrap v5.1.3
+...
 
-### `npm run build` fails to minify
+## 第三方服務
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Algolia
+- Google Analytics
+...
+
+## CI/CD 說明
+
+此專案有使用 Github Actions，所以發起 PR 時會自動執行以下動作：
+
+- 建立 Node.js 環境
+- 安裝相依套件
+- 編譯程式碼
+- 執行 ESLint 掃描
+- 執行測試
+...
+
+當專案 merge 到 main 時會自動執行以下動作：
+
+- 建立 Node.js 環境
+- 安裝相依套件
+- 編譯程式碼
+- 執行 ESLint 掃描
+- 執行測試
+- 部署到 Github Pages
+...
+
+## 聯絡作者
+
+> ps. 這邊絕對不是業配，而是要適當提供一些方式讓觀看者知道你的聯絡方式，讓他們可以更方便的找到你。
+
+你可以透過以下方式與我聯絡
+
+- [部落格](https://israynotarray.com/)
+- [Facebook](https://www.facebook.com/israynotarray)
+- [Instagram](https://www.instagram.com/isray_notarray/)
+...
