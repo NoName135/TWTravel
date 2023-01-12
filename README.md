@@ -9,19 +9,7 @@
 密碼： 11111111
 ```
 
-- [x] 登入
-- [x] 登出
-- [x] 景點搜尋
-- [x] 景點詳細資料
-- [x] 天氣預報
-- [x] 收藏景點
-- [x] 建立行程
-- [x] 編輯行程
-- [x] 變更行程日期時間
-- [x] 自動計算行程時間
-- [x] 拖曳變更行程 Day
-- [x] 拖曳變更行程地點
-- [ ] 測速照相功能來源未開啟 CORS 無法串接
+### `npm start`
 
 
 ## 畫面
@@ -66,5 +54,28 @@
 
 你可以透過以下方式與我聯絡
 
-- [Facebook](https://www.facebook.com/YeJyun.Lin27/)
-- [Instagram](https://www.instagram.com/justin14135/)
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
