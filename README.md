@@ -42,7 +42,7 @@
 
 - Node.js v14.17.6
 - React v18.2.0
-- Vue Router v6.4.2
+- React Router v6.4.2
 - NPM v6.14.15
 - Bootstrap v5.2.2
 - Axios v1.1.3
@@ -52,14 +52,20 @@
 
 - dayjs
 - mui
+- fontawesome
 - animate.css
+- sweetalert2
+- swiper
 - leaflet
 - react-beautiful-dnd
 - react-hook-form
 - react-select
 - react-spinners
-- sweetalert2
-- swiper
+
+
+## 模擬 RESTful API
+- Render
+- JSON Server
 
 
 ## 聯絡作者
