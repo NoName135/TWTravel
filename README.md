@@ -67,8 +67,4 @@
 你可以透過以下方式與我聯絡
 
 - [Facebook](https://www.facebook.com/YeJyun.Lin27/)
-<<<<<<< HEAD
 - [Instagram](https://www.instagram.com/justin14135/)
-=======
-- [Instagram](https://www.instagram.com/justin14135/)
->>>>>>> e2d2fe22dee108be3d377ce407f1a95fb66c123b
