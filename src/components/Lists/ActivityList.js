@@ -466,6 +466,7 @@ const ActivityList = () => {
           // console.log(err.response.data);
           if (tdxTime < 3) {
             tdxTime++;
+            localStorage.removeItem('tdxToken');
             getTdxToken();
           } else {
             setListLoading(false);

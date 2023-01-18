@@ -527,6 +527,7 @@ const RestaurantDetail = () => {
           // console.log(err);
           if (tdxTime < 3) {
             tdxTime++;
+            localStorage.removeItem('tdxToken');
             getTdxToken();
           } else {
             setDetailLoading(false);
