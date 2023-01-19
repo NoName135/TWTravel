@@ -60,8 +60,17 @@ const Layout = () => {
   React.useEffect(() => {
     // console.log(new Date().getTime());
     const now = new Date().getTime();
+    const tdxTimeStamp = JSON.parse(localStorage.getItem('tdxTimeStamp'));
+    // tdxToken 超過 1 天自動登出
+    if (tdxTimeStamp) {
+      if(now - tdxTimeStamp >= 1000*86400){
+        localStorage.removeItem('tdxToken');
+        localStorage.removeItem('tdxTimeStamp');
+      }
+    }
+
     const localStorageTime = JSON.parse(localStorage.getItem('localUserData'))?.timeStamp;
-    // 登入超過55分鐘會自動登出
+    // 登入超過 55 分鐘會自動登出
     if(now - localStorageTime > 1000*60*55){
       localStorage.removeItem('localUserData');
       setToken(null);

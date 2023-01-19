@@ -188,7 +188,6 @@ function SearchPosition(props) {
           console.log(err);
           if (tdxTime < 3) {
             tdxTime++;
-            localStorage.removeItem('tdxToken');
             getTdxToken();
           } else {
             // setListLoading(false);
@@ -227,7 +226,9 @@ function SearchPosition(props) {
         .then((res) => {
           // console.log(res);
           const token = `Bearer ${res.data.access_token}`;
+          const timeStamp = new Date().getTime();
           localStorage.setItem('tdxToken', token);
+          localStorage.setItem('tdxTimeStamp', timeStamp);
           getTdx();
         })
         .catch((err) => {

@@ -445,7 +445,6 @@ const ViewList = () => {
           // console.log(err.response.data);
           if (tdxTime < 3) {
             tdxTime++;
-            localStorage.removeItem('tdxToken');
             getTdxToken();
           } else {
             setListLoading(false);
@@ -484,7 +483,9 @@ const ViewList = () => {
         .then((res) => {
           // console.log(res);
           const token = `Bearer ${res.data.access_token}`;
+          const timeStamp = new Date().getTime();
           localStorage.setItem('tdxToken', token);
+          localStorage.setItem('tdxTimeStamp', timeStamp);
           getTdx();
         })
         .catch((err) => {
