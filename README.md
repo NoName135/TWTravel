@@ -48,11 +48,11 @@ Demo 網址：[Github Page](https://noname135.github.io/TWTravel/)
 - React Router v6.4.2
 - NPM v6.14.15
 - Bootstrap v5.2.2
-- Axios v1.1.3
 
 
 ## 第三方服務
 
+- axios
 - dayjs
 - mui
 - fontawesome
