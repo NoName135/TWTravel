@@ -34,9 +34,9 @@ Demo 網址：[Github Page](https://noname135.github.io/TWTravel/)
 
 
 ## 資料夾說明
-- components - JS檔案
-- stylesheets - SCSS 檔案
-- img - 圖片
+- components - JS files
+- stylesheets - SCSS files
+- img - image files
 
 
 ## 專案技術
