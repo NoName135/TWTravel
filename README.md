@@ -23,7 +23,7 @@ Demo 網址：[Github Page](https://noname135.github.io/TWTravel/)
 - [x] 輸入地址自動計算時間
 - [x] 拖曳變更行程 Day
 - [x] 拖曳變更行程地點
-- [x] 列印本日行程功能
+- [x] 列印當日行程
 - [ ] 測速照相功能(來源未開啟 CORS 無法介接)
 
 
