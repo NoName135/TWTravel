@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Demo 網址：[Github Page](https://noname135.github.io/TWTravel/)
 
 ![專案封面圖](https://github.com/NoName135/TWTravel/blob/main/src/img/readmeImages/homepage.jpg)
@@ -154,4 +153,3 @@ Demo 網址：[Github Page](https://noname135.github.io/TWTravel/)
 
 - [Facebook](https://www.facebook.com/YeJyun.Lin27/)
 - [Instagram](https://www.instagram.com/justin14135/)
->>>>>>> ccc4667971658abdfaa3e7b8f6162abe4bbc04cf
