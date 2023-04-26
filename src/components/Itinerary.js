@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Routes, Route, Link, useParams } from 'react-router-dom';
 import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash, faArrowLeft, faPenToSquare, faCloudArrowDown, faCirclePlus, faTrashCan, faLocationPin, faCar, faMotorcycle, faBicycle, faPersonWalking, faFilePen, faMagnifyingGlass, faStar, faPlus, faPen, faAnglesRight, faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faArrowLeft, faPenToSquare, faPrint, faCirclePlus, faTrashCan, faLocationPin, faCar, faMotorcycle, faBicycle, faPersonWalking, faFilePen, faMagnifyingGlass, faStar, faPlus, faPen, faAnglesRight, faMapLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -14,6 +14,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+
+import { useReactToPrint } from 'react-to-print';
 
 import SearchPosition from './AddPosition/SearchPosition';
 import FavoritePosition from './AddPosition/FavoritePosition';
@@ -34,11 +36,27 @@ const Itinerary = () => {
   const useState = React.useState;
   const useEffect = React.useEffect;
   const pictureRef = React.useRef([]);
+  const dayRef = React.useRef([]);
+  const itineraryRef = React.useRef([]);
   const userId = JSON.parse(localStorage.getItem('localUserData')).user.id;
 
   const [itineraryLoading, setItineraryLoading] = useState(false);
   const [dayLoading, setDayLoading] = useState(false);
   const [vehicleLoading, setVehicleLoading] = useState(false);
+
+  // 列印當日行程
+  const handlePrint = useReactToPrint({
+    content: () => {
+      const PrintElem = document.createElement('div');
+      PrintElem.appendChild(dayRef.current.cloneNode(true));
+      PrintElem.appendChild(itineraryRef.current.cloneNode(true));
+      PrintElem.style.marginTop = '32px';
+      PrintElem.style.marginLeft = 'auto';
+      PrintElem.style.marginRight = 'auto';
+      PrintElem.style.width = '680px';
+      return PrintElem;
+    },
+  });
 
   // 變更地點圖片
   const changePicture = async(data, i) => {
@@ -2070,9 +2088,13 @@ const Itinerary = () => {
                 }}
               />
             </LocalizationProvider>
-            <button className="btn btn-primary mt-3 mt-lg-0">
-              <FontAwesomeIcon className="pe-1" icon={faCloudArrowDown} />
-              <span>下載行程</span>
+            <button
+              className="btn btn-primary mt-3 mt-lg-0"
+              onClick={handlePrint}
+              disabled={dayLoading || itineraryLoading}
+            >
+              <FontAwesomeIcon className="pe-1" icon={faPrint} />
+              <span>列印當日行程</span>
             </button>
           </div>
         </div>
@@ -2096,30 +2118,45 @@ const Itinerary = () => {
                         {(provided) => (
                           <ul
                             className="d-flex flex-nowrap overflow-auto list-unstyled mb-0"
-                            ref={provided.innerRef} {...provided.droppableProps}>
-                              {renderDay.map((item, i) => {
-                                return (
-                                  <div key={`${item.id}-${item.sort}`}>
-                                    <Draggable draggableId={item.id.toString()} index={i} key={`${item.id}-${item.sort}`}>
-                                      {(provided) => (
-                                        <div
-                                          {...provided.draggableProps}
-                                          {...provided.dragHandleProps}
-                                          ref={provided.innerRef}
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                          >
+                            {renderDay.map((item, i) => {
+                              return (
+                                <div key={`${item.id}-${item.sort}`}>
+                                  <Draggable
+                                    draggableId={item.id.toString()}
+                                    index={i}
+                                    key={`${item.id}-${item.sort}`}
+                                  >
+                                    {(provided) => (
+                                      <div
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        ref={provided.innerRef}
+                                      >
+                                        <li
+                                          className={`btn ${
+                                            i + 1 == targetDay
+                                              ? 'btn-primary'
+                                              : 'btn-secondary'
+                                          }
+                                            ${
+                                              i + 1 != renderDay.length
+                                                ? 'me-2'
+                                                : ''
+                                            }`}
+                                          onClick={() => changeDay(i + 1)}
                                         >
-                                          <li className={`btn ${ i + 1 == targetDay ? 'btn-primary' : 'btn-secondary' }
-                                            ${i + 1 != renderDay.length ? 'me-2' : ''}`}
-                                              onClick={() => changeDay(i + 1)}
-                                            >
-                                            {i + 1}
-                                          </li>
-                                        </div>
-                                      )}
-                                    </Draggable>
-                                  </div>
-                                );
-                              })}
-                              {provided.placeholder}
+                                          {i + 1}
+                                        </li>
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                </div>
+                              );
+                            })}
+                            {provided.placeholder}
                           </ul>
                         )}
                       </Droppable>
@@ -2142,7 +2179,10 @@ const Itinerary = () => {
                         className="m-2 mt-0 me-lg-0 border border-dark rounded-bottom p-2"
                         key={item.id}
                       >
-                        <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center">
+                        <div
+                          ref={dayRef}
+                          className="d-flex flex-column flex-lg-row justify-content-between align-items-center"
+                        >
                           <div
                             className="btn btn-danger order-lg-3"
                             onClick={() => deleteDay(item.id, targetDay)}
@@ -2195,561 +2235,814 @@ const Itinerary = () => {
                           </LocalizationProvider>
                         </div>
 
-                        {/* drag 區塊 */}
-                        <DragDropContext onDragEnd={onDragPosition}>
-                          <Droppable droppableId="dropPositions">
-                            {(provided) => (
-                              <ul
-                                className="list-unstyled my-3 mx-2"
-                                ref={provided.innerRef} {...provided.droppableProps}
-                              >
-                                {item.position.length === 0 ? (
-                                  <h4 className="d-flex justify-content-center align-items-center my-4">
-                                    今天還沒有行程
-                                    <span className="ms-2 my-4">ಥ_ಥ</span>
-                                  </h4>
-                                ) : (
-                                  item.position.map((data, i) => {
-                                    return (
-                                      <div key={data.id + data.name}>
-                                        <Draggable draggableId={data.id.toString()} index={i} key={data.id + data.name}>
-                                          {(provided) => (
-                                            <div
-                                              {...provided.draggableProps}
-                                              {...provided.dragHandleProps}
-                                              ref={provided.innerRef}
-                                            >
-                                              <li className='bg-light'>
-                                                <div className="d-flex">
-                                                  {/* 地點開始結束時間 */}
-                                                  <div className="d-flex flex-column justify-content-between">
-                                                    <span>
-                                                      {(
-                                                        parseInt(
-                                                          ([0, ...stayTimes]
-                                                            .filter(
-                                                              (data, index) => index <= i
-                                                            )
-                                                            .reduce((acc, cur) => {
-                                                              return (
-                                                                Number(acc) + Number(cur)
-                                                              );
-                                                            }, parseInt(item.startTime.split(':')[0]) * 60 + parseInt(item.startTime.split(':')[1])) +
-                                                            [0, ...driveTimes]
+                        <div ref={itineraryRef}>
+                          {/* drag 區塊 */}
+                          <DragDropContext onDragEnd={onDragPosition}>
+                            <Droppable droppableId="dropPositions">
+                              {(provided) => (
+                                <ul
+                                  className="list-unstyled my-3 mx-2"
+                                  ref={provided.innerRef}
+                                  {...provided.droppableProps}
+                                >
+                                  {item.position.length === 0 ? (
+                                    <h4 className="d-flex justify-content-center align-items-center my-4">
+                                      今天還沒有行程
+                                      <span className="ms-2 my-4">ಥ_ಥ</span>
+                                    </h4>
+                                  ) : (
+                                    item.position.map((data, i) => {
+                                      return (
+                                        <div key={data.id + data.name}>
+                                          <Draggable
+                                            draggableId={data.id.toString()}
+                                            index={i}
+                                            key={data.id + data.name}
+                                          >
+                                            {(provided) => (
+                                              <div
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                ref={provided.innerRef}
+                                              >
+                                                <li className="bg-light">
+                                                  <div className="d-flex">
+                                                    {/* 地點開始結束時間 */}
+                                                    <div className="d-flex flex-column justify-content-between">
+                                                      <span>
+                                                        {(
+                                                          parseInt(
+                                                            ([0, ...stayTimes]
                                                               .filter(
-                                                                (data, index) => index <= i
+                                                                (data, index) =>
+                                                                  index <= i
                                                               )
-                                                              .reduce((acc, cur) => {
-                                                                return (
-                                                                  Number(acc) + Number(cur)
-                                                                );
-                                                              })) /
-                                                            60
-                                                        ) % 24
-                                                      )
-                                                        .toString()
-                                                        .padStart(2, '0') +
-                                                        ':' +
-                                                        (
-                                                          ([0, ...stayTimes]
-                                                            .filter(
-                                                              (data, index) => index <= i
-                                                            )
-                                                            .reduce((acc, cur) => {
-                                                              return (
-                                                                Number(acc) + Number(cur)
-                                                              );
-                                                            }, parseInt(item.startTime.split(':')[0]) * 60 + parseInt(item.startTime.split(':')[1])) +
-                                                            [0, ...driveTimes]
-                                                              .filter(
-                                                                (data, index) => index <= i
-                                                              )
-                                                              .reduce((acc, cur) => {
-                                                                return (
-                                                                  Number(acc) + Number(cur)
-                                                                );
-                                                              })) %
-                                                          60
+                                                              .reduce(
+                                                                (acc, cur) => {
+                                                                  return (
+                                                                    Number(
+                                                                      acc
+                                                                    ) +
+                                                                    Number(cur)
+                                                                  );
+                                                                },
+                                                                parseInt(
+                                                                  item.startTime.split(
+                                                                    ':'
+                                                                  )[0]
+                                                                ) *
+                                                                  60 +
+                                                                  parseInt(
+                                                                    item.startTime.split(
+                                                                      ':'
+                                                                    )[1]
+                                                                  )
+                                                              ) +
+                                                              [0, ...driveTimes]
+                                                                .filter(
+                                                                  (
+                                                                    data,
+                                                                    index
+                                                                  ) =>
+                                                                    index <= i
+                                                                )
+                                                                .reduce(
+                                                                  (
+                                                                    acc,
+                                                                    cur
+                                                                  ) => {
+                                                                    return (
+                                                                      Number(
+                                                                        acc
+                                                                      ) +
+                                                                      Number(
+                                                                        cur
+                                                                      )
+                                                                    );
+                                                                  }
+                                                                )) /
+                                                              60
+                                                          ) % 24
                                                         )
                                                           .toString()
-                                                          .padStart(2, '0')}
-                                                    </span>
-                                                    <div
-                                                      className="text-center position-relative"
-                                                      style={{ cursor: 'pointer' }}
-                                                      onClick={() =>
-                                                        handleOnFlyTo([data.px, data.py])
-                                                      }
-                                                    >
-                                                      <FontAwesomeIcon
-                                                        className="my-1 text-primary"
-                                                        icon={faLocationPin}
-                                                        size={'3x'}
-                                                      />
-                                                      <div
-                                                        className="position-absolute rounded-circle bg-light top-0 mt-2 ms-2"
-                                                        style={{
-                                                          width: '25px',
-                                                          height: '25px',
-                                                        }}
-                                                      >
-                                                        {i + 1}
-                                                      </div>
-                                                    </div>
-                                                    <span>
-                                                      {(
-                                                        parseInt(
-                                                          (stayTimes
-                                                            .filter(
-                                                              (data, index) => index <= i
-                                                            )
-                                                            .reduce((acc, cur) => {
-                                                              return (
-                                                                Number(acc) + Number(cur)
-                                                              );
-                                                            }, parseInt(item.startTime.split(':')[0]) * 60 + parseInt(item.startTime.split(':')[1])) +
-                                                            [0, ...driveTimes]
+                                                          .padStart(2, '0') +
+                                                          ':' +
+                                                          (
+                                                            ([0, ...stayTimes]
                                                               .filter(
-                                                                (data, index) => index <= i
+                                                                (data, index) =>
+                                                                  index <= i
                                                               )
-                                                              .reduce((acc, cur) => {
-                                                                return (
-                                                                  Number(acc) + Number(cur)
-                                                                );
-                                                              })) /
+                                                              .reduce(
+                                                                (acc, cur) => {
+                                                                  return (
+                                                                    Number(
+                                                                      acc
+                                                                    ) +
+                                                                    Number(cur)
+                                                                  );
+                                                                },
+                                                                parseInt(
+                                                                  item.startTime.split(
+                                                                    ':'
+                                                                  )[0]
+                                                                ) *
+                                                                  60 +
+                                                                  parseInt(
+                                                                    item.startTime.split(
+                                                                      ':'
+                                                                    )[1]
+                                                                  )
+                                                              ) +
+                                                              [0, ...driveTimes]
+                                                                .filter(
+                                                                  (
+                                                                    data,
+                                                                    index
+                                                                  ) =>
+                                                                    index <= i
+                                                                )
+                                                                .reduce(
+                                                                  (
+                                                                    acc,
+                                                                    cur
+                                                                  ) => {
+                                                                    return (
+                                                                      Number(
+                                                                        acc
+                                                                      ) +
+                                                                      Number(
+                                                                        cur
+                                                                      )
+                                                                    );
+                                                                  }
+                                                                )) %
                                                             60
-                                                        ) % 24
-                                                      )
-                                                        .toString()
-                                                        .padStart(2, '0') +
-                                                        ':' +
-                                                        (
-                                                          (stayTimes
-                                                            .filter(
-                                                              (data, index) => index <= i
-                                                            )
-                                                            .reduce((acc, cur) => {
-                                                              return (
-                                                                Number(acc) + Number(cur)
-                                                              );
-                                                            }, parseInt(item.startTime.split(':')[0]) * 60 + parseInt(item.startTime.split(':')[1])) +
-                                                            [0, ...driveTimes]
-                                                              .filter(
-                                                                (data, index) => index <= i
-                                                              )
-                                                              .reduce((acc, cur) => {
-                                                                return (
-                                                                  Number(acc) + Number(cur)
-                                                                );
-                                                              })) %
-                                                          60
-                                                        )
-                                                          .toString()
-                                                          .padStart(2, '0')}
-                                                    </span>
-                                                  </div>
-                                                  {/* 地點卡片區塊 */}
-                                                  <div className="flex-grow-1 ms-2 card h-100 position-relative overflow-hidden">
-                                                    <div className="card-body d-flex flex-column py-2 h-100">
-                                                      <div style={{ width: '90%' }}>
-                                                        <span
-                                                          className="text-primary"
-                                                          style={{
-                                                            cursor: 'pointer',
-                                                            fontWeight: 'bold',
-                                                          }}
-                                                          onClick={() =>
-                                                            changeStayTime(data, i)
-                                                          }
-                                                        >
-                                                          停留
-                                                          {` ${parseInt(
-                                                            data.stayTime / 60
-                                                          )}小時 ${data.stayTime % 60}分鐘`}
-                                                        </span>
-                                                      </div>
-                                                      <div className="d-flex my-2 align-items-center">
-                                                        <label htmlFor={`pictureUpload${i}`}>
-                                                          <img
-                                                            className="d-none d-md-flex"
-                                                            style={{
-                                                              width: '50px',
-                                                              height: '50px',
-                                                              objectFit: 'cover',
-                                                              cursor: 'pointer',
-                                                            }}
-                                                            src={
-                                                              data.picture ||
-                                                              'https://www.survivorsuk.org/wp-content/uploads/2017/01/no-image.jpg'
-                                                            }
-                                                          />
-                                                        </label>
-                                                        <input
-                                                          id={`pictureUpload${i}`}
-                                                          type="file"
-                                                          name="file"
-                                                          accept="image/*"
-                                                          ref={(el) =>
-                                                            (pictureRef.current[i] = el)
-                                                          }
-                                                          className="d-none"
-                                                          onChange={() =>
-                                                            changePicture(data, i)
-                                                          }
-                                                        />
-                                                        <h5
-                                                          className="mb-0 ms-lg-2 text-truncate"
-                                                          style={{ fontWeight: 'bold' }}
-                                                        >
-                                                          {data.name}
-                                                        </h5>
-                                                      </div>
-                                                      <span className="text-truncate">
-                                                        {data.address}
+                                                          )
+                                                            .toString()
+                                                            .padStart(2, '0')}
                                                       </span>
-                                                    </div>
-
-                                                    {/* 變更刪除地點按鈕 */}
-                                                    <button
-                                                      className="btn btn-sm btn-primary position-absolute end-0"
-                                                      onClick={() =>
-                                                        setCardButtons({
-                                                          ...cardButtons,
-                                                          [data.id]: {
-                                                            edit: true,
-                                                            vehicle:
-                                                              cardButtons[data.id].vehicle,
-                                                          },
-                                                        })
-                                                      }
-                                                    >
-                                                      <FontAwesomeIcon icon={faPen} />
-                                                      <span className="ps-2 d-none d-sm-inline">
-                                                        編輯
-                                                      </span>
-                                                    </button>
-                                                    <div
-                                                      className={`d-flex position-absolute end-0 bg-white edit-area ${
-                                                        cardButtons[data.id]?.edit
-                                                          ? ''
-                                                          : 'active'
-                                                      }`}
-                                                      style={{ height: '100%' }}
-                                                    >
-                                                      <div className="d-flex flex-column">
-                                                        <div
-                                                          className="btn btn-outline-info d-flex align-items-center"
-                                                          style={{
-                                                            height: '50%',
-                                                            fontWeight: 'bold',
-                                                          }}
-                                                          onClick={() =>
-                                                            changePosition(
-                                                              item.id,
-                                                              item.position,
-                                                              data,
-                                                              i
-                                                            )
-                                                          }
-                                                        >
-                                                          變更地點
-                                                        </div>
-                                                        <div
-                                                          className="btn btn-outline-danger d-flex align-items-center"
-                                                          style={{
-                                                            height: '50%',
-                                                            fontWeight: 'bold',
-                                                          }}
-                                                          onClick={() =>
-                                                            deletePosition(
-                                                              item.id,
-                                                              item.position,
-                                                              data,
-                                                              i
-                                                            )
-                                                          }
-                                                        >
-                                                          刪除地點
-                                                        </div>
-                                                      </div>
                                                       <div
-                                                        className="d-flex justify-content-center align-items-center edit-btn border-start border-3 border-primary"
+                                                        className="text-center position-relative"
                                                         style={{
-                                                          width: '40px',
                                                           cursor: 'pointer',
                                                         }}
+                                                        onClick={() =>
+                                                          handleOnFlyTo([
+                                                            data.px,
+                                                            data.py,
+                                                          ])
+                                                        }
+                                                      >
+                                                        <FontAwesomeIcon
+                                                          className="my-1 text-primary"
+                                                          icon={faLocationPin}
+                                                          size={'3x'}
+                                                        />
+                                                        <div
+                                                          className="position-absolute rounded-circle bg-light top-0 mt-2 ms-2"
+                                                          style={{
+                                                            width: '25px',
+                                                            height: '25px',
+                                                          }}
+                                                        >
+                                                          {i + 1}
+                                                        </div>
+                                                      </div>
+                                                      <span>
+                                                        {(
+                                                          parseInt(
+                                                            (stayTimes
+                                                              .filter(
+                                                                (data, index) =>
+                                                                  index <= i
+                                                              )
+                                                              .reduce(
+                                                                (acc, cur) => {
+                                                                  return (
+                                                                    Number(
+                                                                      acc
+                                                                    ) +
+                                                                    Number(cur)
+                                                                  );
+                                                                },
+                                                                parseInt(
+                                                                  item.startTime.split(
+                                                                    ':'
+                                                                  )[0]
+                                                                ) *
+                                                                  60 +
+                                                                  parseInt(
+                                                                    item.startTime.split(
+                                                                      ':'
+                                                                    )[1]
+                                                                  )
+                                                              ) +
+                                                              [0, ...driveTimes]
+                                                                .filter(
+                                                                  (
+                                                                    data,
+                                                                    index
+                                                                  ) =>
+                                                                    index <= i
+                                                                )
+                                                                .reduce(
+                                                                  (
+                                                                    acc,
+                                                                    cur
+                                                                  ) => {
+                                                                    return (
+                                                                      Number(
+                                                                        acc
+                                                                      ) +
+                                                                      Number(
+                                                                        cur
+                                                                      )
+                                                                    );
+                                                                  }
+                                                                )) /
+                                                              60
+                                                          ) % 24
+                                                        )
+                                                          .toString()
+                                                          .padStart(2, '0') +
+                                                          ':' +
+                                                          (
+                                                            (stayTimes
+                                                              .filter(
+                                                                (data, index) =>
+                                                                  index <= i
+                                                              )
+                                                              .reduce(
+                                                                (acc, cur) => {
+                                                                  return (
+                                                                    Number(
+                                                                      acc
+                                                                    ) +
+                                                                    Number(cur)
+                                                                  );
+                                                                },
+                                                                parseInt(
+                                                                  item.startTime.split(
+                                                                    ':'
+                                                                  )[0]
+                                                                ) *
+                                                                  60 +
+                                                                  parseInt(
+                                                                    item.startTime.split(
+                                                                      ':'
+                                                                    )[1]
+                                                                  )
+                                                              ) +
+                                                              [0, ...driveTimes]
+                                                                .filter(
+                                                                  (
+                                                                    data,
+                                                                    index
+                                                                  ) =>
+                                                                    index <= i
+                                                                )
+                                                                .reduce(
+                                                                  (
+                                                                    acc,
+                                                                    cur
+                                                                  ) => {
+                                                                    return (
+                                                                      Number(
+                                                                        acc
+                                                                      ) +
+                                                                      Number(
+                                                                        cur
+                                                                      )
+                                                                    );
+                                                                  }
+                                                                )) %
+                                                            60
+                                                          )
+                                                            .toString()
+                                                            .padStart(2, '0')}
+                                                      </span>
+                                                    </div>
+                                                    {/* 地點卡片區塊 */}
+                                                    <div className="flex-grow-1 ms-2 card h-100 position-relative overflow-hidden">
+                                                      <div className="card-body d-flex flex-column py-2 h-100">
+                                                        <div
+                                                          style={{
+                                                            width: '90%',
+                                                          }}
+                                                        >
+                                                          <span
+                                                            className="text-primary"
+                                                            style={{
+                                                              cursor: 'pointer',
+                                                              fontWeight:
+                                                                'bold',
+                                                            }}
+                                                            onClick={() =>
+                                                              changeStayTime(
+                                                                data,
+                                                                i
+                                                              )
+                                                            }
+                                                          >
+                                                            停留
+                                                            {` ${parseInt(
+                                                              data.stayTime / 60
+                                                            )}小時 ${
+                                                              data.stayTime % 60
+                                                            }分鐘`}
+                                                          </span>
+                                                        </div>
+                                                        <div className="d-flex my-2 align-items-center">
+                                                          <label
+                                                            htmlFor={`pictureUpload${i}`}
+                                                          >
+                                                            <img
+                                                              className="d-none d-md-flex"
+                                                              style={{
+                                                                width: '50px',
+                                                                height: '50px',
+                                                                objectFit:
+                                                                  'cover',
+                                                                cursor:
+                                                                  'pointer',
+                                                              }}
+                                                              src={
+                                                                data.picture ||
+                                                                'https://www.survivorsuk.org/wp-content/uploads/2017/01/no-image.jpg'
+                                                              }
+                                                            />
+                                                          </label>
+                                                          <input
+                                                            id={`pictureUpload${i}`}
+                                                            type="file"
+                                                            name="file"
+                                                            accept="image/*"
+                                                            ref={(el) =>
+                                                              (pictureRef.current[
+                                                                i
+                                                              ] = el)
+                                                            }
+                                                            className="d-none"
+                                                            onChange={() =>
+                                                              changePicture(
+                                                                data,
+                                                                i
+                                                              )
+                                                            }
+                                                          />
+                                                          <h5
+                                                            className="mb-0 ms-lg-2 text-truncate"
+                                                            style={{
+                                                              fontWeight:
+                                                                'bold',
+                                                            }}
+                                                          >
+                                                            {data.name}
+                                                          </h5>
+                                                        </div>
+                                                        <span className="text-truncate">
+                                                          {data.address}
+                                                        </span>
+                                                      </div>
+
+                                                      {/* 變更刪除地點按鈕 */}
+                                                      <button
+                                                        className="btn btn-sm btn-primary position-absolute end-0"
                                                         onClick={() =>
                                                           setCardButtons({
                                                             ...cardButtons,
                                                             [data.id]: {
-                                                              edit: false,
+                                                              edit: true,
                                                               vehicle:
-                                                                cardButtons[data.id]?.vehicle,
+                                                                cardButtons[
+                                                                  data.id
+                                                                ].vehicle,
                                                             },
                                                           })
                                                         }
                                                       >
                                                         <FontAwesomeIcon
-                                                          icon={faAnglesRight}
-                                                          size={'2x'}
+                                                          icon={faPen}
                                                         />
+                                                        <span className="ps-2 d-none d-sm-inline">
+                                                          編輯
+                                                        </span>
+                                                      </button>
+                                                      <div
+                                                        className={`d-flex position-absolute end-0 bg-white edit-area ${
+                                                          cardButtons[data.id]
+                                                            ?.edit
+                                                            ? ''
+                                                            : 'active'
+                                                        }`}
+                                                        style={{
+                                                          height: '100%',
+                                                        }}
+                                                      >
+                                                        <div className="d-flex flex-column">
+                                                          <div
+                                                            className="btn btn-outline-info d-flex align-items-center"
+                                                            style={{
+                                                              height: '50%',
+                                                              fontWeight:
+                                                                'bold',
+                                                            }}
+                                                            onClick={() =>
+                                                              changePosition(
+                                                                item.id,
+                                                                item.position,
+                                                                data,
+                                                                i
+                                                              )
+                                                            }
+                                                          >
+                                                            變更地點
+                                                          </div>
+                                                          <div
+                                                            className="btn btn-outline-danger d-flex align-items-center"
+                                                            style={{
+                                                              height: '50%',
+                                                              fontWeight:
+                                                                'bold',
+                                                            }}
+                                                            onClick={() =>
+                                                              deletePosition(
+                                                                item.id,
+                                                                item.position,
+                                                                data,
+                                                                i
+                                                              )
+                                                            }
+                                                          >
+                                                            刪除地點
+                                                          </div>
+                                                        </div>
+                                                        <div
+                                                          className="d-flex justify-content-center align-items-center edit-btn border-start border-3 border-primary"
+                                                          style={{
+                                                            width: '40px',
+                                                            cursor: 'pointer',
+                                                          }}
+                                                          onClick={() =>
+                                                            setCardButtons({
+                                                              ...cardButtons,
+                                                              [data.id]: {
+                                                                edit: false,
+                                                                vehicle:
+                                                                  cardButtons[
+                                                                    data.id
+                                                                  ]?.vehicle,
+                                                              },
+                                                            })
+                                                          }
+                                                        >
+                                                          <FontAwesomeIcon
+                                                            icon={faAnglesRight}
+                                                            size={'2x'}
+                                                          />
+                                                        </div>
                                                       </div>
                                                     </div>
                                                   </div>
-                                                </div>
-                                                {/* 選擇交通工具 */}
-                                                {renderDay[targetDay - 1].position.length ===
-                                                i + 1 ? null : (
-                                                  <div
-                                                    className="border-start border-primary my-2"
-                                                    style={{
-                                                      marginLeft: '19.7px',
-                                                      paddingLeft: '43px',
-                                                    }}
-                                                  >
-                                                    <div className="d-flex flex-column flex-lg-row">
-                                                      <div
-                                                        className="text-nowrap"
-                                                        style={{ cursor: 'pointer' }}
-                                                        onClick={() => {
-                                                          const newButtons = {
-                                                            ...cardButtons,
-                                                          };
-                                                          Object.keys(newButtons).forEach(
-                                                            (item, i) =>
-                                                              (newButtons[Number(item)] = {
-                                                                edit: false,
-                                                                vehicle: false,
-                                                              })
-                                                          );
-                                                          newButtons[data.id] = {
-                                                            edit: cardButtons[data.id]?.edit,
-                                                            vehicle:
-                                                              !cardButtons[data.id]?.vehicle,
-                                                          };
-                                                          setCardButtons(newButtons);
-                                                        }}
-                                                      >
-                                                        {vehicle[data.id]?.vehicle ===
-                                                        'car' ? (
-                                                          <FontAwesomeIcon
-                                                            icon={faCar}
-                                                            size={'lg'}
-                                                            className="text-primary"
-                                                          />
-                                                        ) : null}
-                                                        {vehicle[data.id]?.vehicle ===
-                                                        'scooter' ? (
-                                                          <FontAwesomeIcon
-                                                            icon={faMotorcycle}
-                                                            size={'lg'}
-                                                            className="text-primary"
-                                                          />
-                                                        ) : null}
-                                                        {vehicle[data.id]?.vehicle ===
-                                                        'cycling' ? (
-                                                          <FontAwesomeIcon
-                                                            icon={faBicycle}
-                                                            size={'lg'}
-                                                            className="text-primary"
-                                                          />
-                                                        ) : null}
-                                                        {vehicle[data.id]?.vehicle ===
-                                                        'walking' ? (
-                                                          <FontAwesomeIcon
-                                                            icon={faPersonWalking}
-                                                            size={'lg'}
-                                                            className="text-primary"
-                                                          />
-                                                        ) : null}
-                                                        {typeof vehicle[data.id]?.vehicle ===
-                                                        'number' ? (
-                                                          <FontAwesomeIcon
-                                                            icon={faFilePen}
-                                                            size={'lg'}
-                                                            className="text-primary"
-                                                          />
-                                                        ) : null}
-                                                        <span className="ps-2">{`${parseInt(
-                                                          driveTimes[i] / 60
-                                                        )}小時 ${parseInt(
-                                                          driveTimes[i] % 60
-                                                        )}分`}</span>
-                                                      </div>
-                                                      <div className="form-check form-switch mt-2 mt-lg-0 ms-lg-3 mb-0">
-                                                        <label>
-                                                          <input
-                                                            type="checkbox"
-                                                            role="switch"
-                                                            className="form-check-input"
-                                                            id={`formCheck${i}`}
-                                                            checked={
-                                                              vehicle[data.id]?.avoidHighway
-                                                            }
-                                                            disabled={
-                                                              vehicle[data.id]?.vehicle !==
-                                                              'car' || highwayLoader
-                                                            }
-                                                            onChange={() =>
-                                                              changeHighwayRadio(data.id, i)
-                                                            }
-                                                          />
-                                                          <span
-                                                            className={`text-nowrap ${
-                                                              vehicle[data.id]?.vehicle !==
-                                                              'car'
-                                                                ? 'text-black text-opacity-25'
-                                                                : ''
-                                                            }`}
-                                                          >
-                                                            避開高速公路
-                                                          </span>
-                                                        </label>
-                                                      </div>
-                                                    </div>
+                                                  {/* 選擇交通工具 */}
+                                                  {renderDay[targetDay - 1]
+                                                    .position.length ===
+                                                  i + 1 ? null : (
                                                     <div
-                                                      className={`flex-column flex-lg-row bg-secondary my-3 py-2 me-1 rounded border border-primary position-relative ${
-                                                        cardButtons[data.id]?.vehicle
-                                                          ? 'row'
-                                                          : 'd-none'
-                                                      }`}
+                                                      className="border-start border-primary my-2"
+                                                      style={{
+                                                        marginLeft: '19.7px',
+                                                        paddingLeft: '43px',
+                                                      }}
                                                     >
-                                                      {vehicleLoading ? <VehicleLoader /> : null}
-                                                      <div className="col-12 col-lg-8 d-flex flex-column justify-content-between">
-                                                        <div className="d-flex justify-content-between justify-content-md-around">
-                                                          <FontAwesomeIcon
-                                                            icon={faCar}
-                                                            size={'lg'}
-                                                            className={`${
-                                                              changeVehicleObj[data.id] ===
-                                                              'car'
-                                                                ? 'text-primary'
-                                                                : 'text-dark'
-                                                            }`}
-                                                            style={{ cursor: 'pointer' }}
-                                                            onClick={() =>
-                                                              changeVehicle(
-                                                                'car',
-                                                                item.position[i],
-                                                                item.position[i + 1],
-                                                                i
-                                                              )
-                                                            }
-                                                          />
-                                                          <FontAwesomeIcon
-                                                            icon={faMotorcycle}
-                                                            size={'lg'}
-                                                            className={`${
-                                                              changeVehicleObj[data.id] ===
-                                                              'scooter'
-                                                                ? 'text-primary'
-                                                                : 'text-dark'
-                                                            }`}
-                                                            style={{ cursor: 'pointer' }}
-                                                            onClick={() =>
-                                                              changeVehicle(
-                                                                'scooter',
-                                                                item.position[i],
-                                                                item.position[i + 1],
-                                                                i
-                                                              )
-                                                            }
-                                                          />
-                                                          <FontAwesomeIcon
-                                                            icon={faBicycle}
-                                                            size={'lg'}
-                                                            className={`${
-                                                              changeVehicleObj[data.id] ===
-                                                              'cycling'
-                                                                ? 'text-primary'
-                                                                : 'text-dark'
-                                                            }`}
-                                                            style={{ cursor: 'pointer' }}
-                                                            onClick={() =>
-                                                              changeVehicle(
-                                                                'cycling',
-                                                                item.position[i],
-                                                                item.position[i + 1],
-                                                                i
-                                                              )
-                                                            }
-                                                          />
-                                                          <FontAwesomeIcon
-                                                            icon={faPersonWalking}
-                                                            size={'lg'}
-                                                            className={`${
-                                                              changeVehicleObj[data.id] ===
-                                                              'walking'
-                                                                ? 'text-primary'
-                                                                : 'text-dark'
-                                                            }`}
-                                                            style={{ cursor: 'pointer' }}
-                                                            onClick={() =>
-                                                              changeVehicle(
-                                                                'walking',
-                                                                item.position[i],
-                                                                item.position[i + 1],
-                                                                i
-                                                              )
-                                                            }
-                                                          />
-                                                        </div>
-                                                        <span
-                                                          className={`fs-6 text-center mt-3 m-lg-0 ${
-                                                            changeVehicleObj[data.id] ===
-                                                            'custom'
-                                                              ? 'text-primary'
-                                                              : ' text-dark'
-                                                          }`}
+                                                      <div className="d-flex flex-column flex-lg-row">
+                                                        <div
+                                                          className="text-nowrap"
                                                           style={{
                                                             cursor: 'pointer',
-                                                            fontWeight: 'bold',
                                                           }}
                                                           onClick={() => {
-                                                            changeVehicle(
-                                                              'custom',
-                                                              item.position[i],
-                                                              item.position[i + 1],
-                                                              i
+                                                            const newButtons = {
+                                                              ...cardButtons,
+                                                            };
+                                                            Object.keys(
+                                                              newButtons
+                                                            ).forEach(
+                                                              (item, i) =>
+                                                                (newButtons[
+                                                                  Number(item)
+                                                                ] = {
+                                                                  edit: false,
+                                                                  vehicle: false,
+                                                                })
+                                                            );
+                                                            newButtons[
+                                                              data.id
+                                                            ] = {
+                                                              edit: cardButtons[
+                                                                data.id
+                                                              ]?.edit,
+                                                              vehicle:
+                                                                !cardButtons[
+                                                                  data.id
+                                                                ]?.vehicle,
+                                                            };
+                                                            setCardButtons(
+                                                              newButtons
                                                             );
                                                           }}
                                                         >
-                                                          自訂時間
-                                                        </span>
+                                                          {vehicle[data.id]
+                                                            ?.vehicle ===
+                                                          'car' ? (
+                                                            <FontAwesomeIcon
+                                                              icon={faCar}
+                                                              size={'lg'}
+                                                              className="text-primary"
+                                                            />
+                                                          ) : null}
+                                                          {vehicle[data.id]
+                                                            ?.vehicle ===
+                                                          'scooter' ? (
+                                                            <FontAwesomeIcon
+                                                              icon={
+                                                                faMotorcycle
+                                                              }
+                                                              size={'lg'}
+                                                              className="text-primary"
+                                                            />
+                                                          ) : null}
+                                                          {vehicle[data.id]
+                                                            ?.vehicle ===
+                                                          'cycling' ? (
+                                                            <FontAwesomeIcon
+                                                              icon={faBicycle}
+                                                              size={'lg'}
+                                                              className="text-primary"
+                                                            />
+                                                          ) : null}
+                                                          {vehicle[data.id]
+                                                            ?.vehicle ===
+                                                          'walking' ? (
+                                                            <FontAwesomeIcon
+                                                              icon={
+                                                                faPersonWalking
+                                                              }
+                                                              size={'lg'}
+                                                              className="text-primary"
+                                                            />
+                                                          ) : null}
+                                                          {typeof vehicle[
+                                                            data.id
+                                                          ]?.vehicle ===
+                                                          'number' ? (
+                                                            <FontAwesomeIcon
+                                                              icon={faFilePen}
+                                                              size={'lg'}
+                                                              className="text-primary"
+                                                            />
+                                                          ) : null}
+                                                          <span className="ps-2">{`${parseInt(
+                                                            driveTimes[i] / 60
+                                                          )}小時 ${parseInt(
+                                                            driveTimes[i] % 60
+                                                          )}分`}</span>
+                                                        </div>
+                                                        <div className="form-check form-switch mt-2 mt-lg-0 ms-lg-3 mb-0">
+                                                          <label>
+                                                            <input
+                                                              type="checkbox"
+                                                              role="switch"
+                                                              className="form-check-input"
+                                                              id={`formCheck${i}`}
+                                                              checked={
+                                                                vehicle[data.id]
+                                                                  ?.avoidHighway
+                                                              }
+                                                              disabled={
+                                                                vehicle[data.id]
+                                                                  ?.vehicle !==
+                                                                  'car' ||
+                                                                highwayLoader
+                                                              }
+                                                              onChange={() =>
+                                                                changeHighwayRadio(
+                                                                  data.id,
+                                                                  i
+                                                                )
+                                                              }
+                                                            />
+                                                            <span
+                                                              className={`text-nowrap ${
+                                                                vehicle[data.id]
+                                                                  ?.vehicle !==
+                                                                'car'
+                                                                  ? 'text-black text-opacity-25'
+                                                                  : ''
+                                                              }`}
+                                                            >
+                                                              避開高速公路
+                                                            </span>
+                                                          </label>
+                                                        </div>
                                                       </div>
-                                                      <div className="col-12 col-lg-4 d-flex flex-column">
-                                                        <span className="text-center mt-3 mt-lg-0">
-                                                          {`${parseInt(
-                                                            changeRouteTimes[i] / 60
-                                                          )}小時 ${
-                                                            changeRouteTimes[i] % 60
-                                                          }分鐘`}
-                                                        </span>
-                                                        <div
-                                                          className="btn btn-sm btn-primary mt-2 mx-1 mx-lg-0"
-                                                          onClick={() =>
-                                                            handleChangeVehicle(data.id, i)
-                                                          }
-                                                        >
-                                                          確定變更
+                                                      <div
+                                                        className={`flex-column flex-lg-row bg-secondary my-3 py-2 me-1 rounded border border-primary position-relative ${
+                                                          cardButtons[data.id]
+                                                            ?.vehicle
+                                                            ? 'row'
+                                                            : 'd-none'
+                                                        }`}
+                                                      >
+                                                        {vehicleLoading ? (
+                                                          <VehicleLoader />
+                                                        ) : null}
+                                                        <div className="col-12 col-lg-8 d-flex flex-column justify-content-between">
+                                                          <div className="d-flex justify-content-between justify-content-md-around">
+                                                            <FontAwesomeIcon
+                                                              icon={faCar}
+                                                              size={'lg'}
+                                                              className={`${
+                                                                changeVehicleObj[
+                                                                  data.id
+                                                                ] === 'car'
+                                                                  ? 'text-primary'
+                                                                  : 'text-dark'
+                                                              }`}
+                                                              style={{
+                                                                cursor:
+                                                                  'pointer',
+                                                              }}
+                                                              onClick={() =>
+                                                                changeVehicle(
+                                                                  'car',
+                                                                  item.position[
+                                                                    i
+                                                                  ],
+                                                                  item.position[
+                                                                    i + 1
+                                                                  ],
+                                                                  i
+                                                                )
+                                                              }
+                                                            />
+                                                            <FontAwesomeIcon
+                                                              icon={
+                                                                faMotorcycle
+                                                              }
+                                                              size={'lg'}
+                                                              className={`${
+                                                                changeVehicleObj[
+                                                                  data.id
+                                                                ] === 'scooter'
+                                                                  ? 'text-primary'
+                                                                  : 'text-dark'
+                                                              }`}
+                                                              style={{
+                                                                cursor:
+                                                                  'pointer',
+                                                              }}
+                                                              onClick={() =>
+                                                                changeVehicle(
+                                                                  'scooter',
+                                                                  item.position[
+                                                                    i
+                                                                  ],
+                                                                  item.position[
+                                                                    i + 1
+                                                                  ],
+                                                                  i
+                                                                )
+                                                              }
+                                                            />
+                                                            <FontAwesomeIcon
+                                                              icon={faBicycle}
+                                                              size={'lg'}
+                                                              className={`${
+                                                                changeVehicleObj[
+                                                                  data.id
+                                                                ] === 'cycling'
+                                                                  ? 'text-primary'
+                                                                  : 'text-dark'
+                                                              }`}
+                                                              style={{
+                                                                cursor:
+                                                                  'pointer',
+                                                              }}
+                                                              onClick={() =>
+                                                                changeVehicle(
+                                                                  'cycling',
+                                                                  item.position[
+                                                                    i
+                                                                  ],
+                                                                  item.position[
+                                                                    i + 1
+                                                                  ],
+                                                                  i
+                                                                )
+                                                              }
+                                                            />
+                                                            <FontAwesomeIcon
+                                                              icon={
+                                                                faPersonWalking
+                                                              }
+                                                              size={'lg'}
+                                                              className={`${
+                                                                changeVehicleObj[
+                                                                  data.id
+                                                                ] === 'walking'
+                                                                  ? 'text-primary'
+                                                                  : 'text-dark'
+                                                              }`}
+                                                              style={{
+                                                                cursor:
+                                                                  'pointer',
+                                                              }}
+                                                              onClick={() =>
+                                                                changeVehicle(
+                                                                  'walking',
+                                                                  item.position[
+                                                                    i
+                                                                  ],
+                                                                  item.position[
+                                                                    i + 1
+                                                                  ],
+                                                                  i
+                                                                )
+                                                              }
+                                                            />
+                                                          </div>
+                                                          <span
+                                                            className={`fs-6 text-center mt-3 m-lg-0 ${
+                                                              changeVehicleObj[
+                                                                data.id
+                                                              ] === 'custom'
+                                                                ? 'text-primary'
+                                                                : ' text-dark'
+                                                            }`}
+                                                            style={{
+                                                              cursor: 'pointer',
+                                                              fontWeight:
+                                                                'bold',
+                                                            }}
+                                                            onClick={() => {
+                                                              changeVehicle(
+                                                                'custom',
+                                                                item.position[
+                                                                  i
+                                                                ],
+                                                                item.position[
+                                                                  i + 1
+                                                                ],
+                                                                i
+                                                              );
+                                                            }}
+                                                          >
+                                                            自訂時間
+                                                          </span>
+                                                        </div>
+                                                        <div className="col-12 col-lg-4 d-flex flex-column">
+                                                          <span className="text-center mt-3 mt-lg-0">
+                                                            {`${parseInt(
+                                                              changeRouteTimes[
+                                                                i
+                                                              ] / 60
+                                                            )}小時 ${
+                                                              changeRouteTimes[
+                                                                i
+                                                              ] % 60
+                                                            }分鐘`}
+                                                          </span>
+                                                          <div
+                                                            className="btn btn-sm btn-primary mt-2 mx-1 mx-lg-0"
+                                                            onClick={() =>
+                                                              handleChangeVehicle(
+                                                                data.id,
+                                                                i
+                                                              )
+                                                            }
+                                                          >
+                                                            確定變更
+                                                          </div>
                                                         </div>
                                                       </div>
                                                     </div>
-                                                  </div>
-                                                )}
-                                              </li>
-                                            </div>
-                                          )}
-                                        </Draggable>
-                                      </div>
-                                    );
-                                  })
-                                )}
-                                {provided.placeholder}
-                              </ul>
-                            )}
-                          </Droppable>
-                        </DragDropContext>
+                                                  )}
+                                                </li>
+                                              </div>
+                                            )}
+                                          </Draggable>
+                                        </div>
+                                      );
+                                    })
+                                  )}
+                                  {provided.placeholder}
+                                </ul>
+                              )}
+                            </Droppable>
+                          </DragDropContext>
+                        </div>
                         {/* 新增地點 */}
                         <div className="d-flex flex-column flex-sm-row justify-content-around mb-3">
                           {stayTimes.length > 0 &&
