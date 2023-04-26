@@ -29,7 +29,9 @@ Demo 網址：[Github Page](https://noname135.github.io/TWTravel/)
 
 ## 畫面
 ![範例圖片 1](https://github.com/NoName135/TWTravel/blob/main/src/img/readmeImages/picture1.jpg)
+
 ![範例圖片 2](https://github.com/NoName135/TWTravel/blob/main/src/img/readmeImages/picture2.jpg)
+
 ![範例圖片 3](https://github.com/NoName135/TWTravel/blob/main/src/img/readmeImages/picture3.jpg)
 
 
@@ -56,10 +58,11 @@ Demo 網址：[Github Page](https://noname135.github.io/TWTravel/)
 - fontawesome
 - sweetalert2
 - animate.css
-- react-beautiful-dnd
-- react-hook-form
-- react-select
-- react-spinners
+- react beautiful dnd
+- react hook form
+- react select
+- react spinners
+- react to print
 
 
 ## 模擬 RESTful API
